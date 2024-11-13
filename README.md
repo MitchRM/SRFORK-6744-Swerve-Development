@@ -15,6 +15,8 @@ The original Maxswerve README can be found in the MAXSwerveReadme.md file.
 
 ### startup topic branch:
  Modifications to get the swerve prototype up and driving in teleop mode. The approach is to make the minimum changes needed to get the prototype running for intial evaluation. This branch will be pulled to development-v1 after successful testing on the robot.
+- **startup-driverctrl** temporary topic branch; Modifications to as needed to set up the driver controls. Merge these changes into **startup** for testing.
 
 ### autodrive topic branch:
-Modifications to provide a simple drive distance autonomous function. These modification may include some of the autonomous code developed for Crescendo This branch will be pulled to development-v1 after successful testing on the robot.
+Modifications to provide a simple drive distance autonomous function. This should branch from **development-v1** after completion and merge of **startup**. 
+- These modification may include some of the autonomous code developed for Crescendo This branch will be pulled to development-v1 after successful testing on the robot.
