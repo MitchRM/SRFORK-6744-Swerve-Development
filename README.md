@@ -1,22 +1,20 @@
-# MAXSwerve Java Template v2024.0
+# 6744-Swerve-Development
 
-See [the online changelog](https://github.com/REVrobotics/MAXSwerve-Java-Template/blob/main/CHANGELOG.md) for information about updates to the template that may have been released since you created your project.
+### 6744 Experimental Swerve Robot Fall 2024
+This project will develop software to run a FRC swerve robot that uses REV MAXSwerve Modules and will use the MAXSwerve Java Template v2023.1 as a starting place.
 
-## Description
+The original Maxswerve README can be found in the MAXSwerveReadme.md file.
 
-A template project for an FRC swerve drivetrain that uses REV MAXSwerve Modules.
+## Development approach
 
-Note that this is meant to be used with a drivetrain composed of four MAXSwerve Modules, each configured with two SPARKS MAX, a NEO as the driving motor, a NEO 550 as the turning motor, and a REV Through Bore Encoder as the absolute turning encoder.
+- Code and test all new features and fixes on specific topic branches. 
+- After successfully testing a topic branch submit a pull request to merge it with the development-tst branch for itegration and testing its readiness for demo or competition. 
+- Development branches are given a version number. The first will be development-v1. Once a version of the development branch is shown to be fully functional and ready for robot practice runs, demostrations or competition it will be merged with the main branch and work on that that version development branch will cease.
 
-To get started, make sure you have calibrated the zero offsets for the absolute encoders in the Hardware Client using the `Absolute Encoder` tab under the associated turning SPARK MAX devices.
+## development-v1 plans 11/14/24
 
-## Prerequisites
+### startup topic branch:
+ Modifications to get the swerve prototype up and driving in teleop mode. The approach is to make the minimum changes needed to get the prototype running for intial evaluation. This branch will be pulled to development-v1 after successful testing on the robot.
 
-* SPARK MAX Firmware v1.6.2 - Adds features that are required for swerve
-* REVLib v2023.1.2 - Includes APIs for the new firmware features
-
-## Configuration
-
-It is possible that this project will not work for your robot right out of the box. Various things like the CAN IDs, PIDF gains, chassis configuration, etc. must be determined for your own robot!
-
-These values can be adjusted in the `Constants.java` file.
+### autodrive topic branch:
+Modifications to provide a simple drive distance autonomous function. These modification may include some of the autonomous code developed for Crescendo This branch will be pulled to development-v1 after successful testing on the robot.
