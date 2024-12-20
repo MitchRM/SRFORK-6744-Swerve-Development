@@ -29,8 +29,6 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    // Enable LiveWindow in Test Mode - default set up 
-    enableLiveWindowInTest(true);
   }
 
   /**
