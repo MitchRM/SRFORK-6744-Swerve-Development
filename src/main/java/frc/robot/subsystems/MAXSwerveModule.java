@@ -29,9 +29,10 @@ public class MAXSwerveModule {
 
   private double m_chassisAngularOffset = 0;
   private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
-
-  private String shuffleboardName;
-
+ 
+  @SuppressWarnings("unused")       // Not sure why shuffleboardName is flagged with an unused warning      
+  private String shuffleboardName;  // it is a parameter of MAXSwerveModule constructor
+  
   
 
   /**
