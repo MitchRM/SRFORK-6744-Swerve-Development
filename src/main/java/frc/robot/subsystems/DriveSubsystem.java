@@ -123,6 +123,9 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
         },
         pose);
+
+     SmartDashboard.putNumber("Gyro", m_gyro.getAngle(IMUAxis.kZ));
+  
   }
 
   /**
@@ -203,6 +206,11 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
+
+    // Update shuffleboard with heading and desired speeds & direction
+    UpdateShuffleboardChassis(getHeading(), xSpeedCommanded, ySpeedCommanded, m_currentRotation );
+
+
   }
 
   /**
@@ -272,6 +280,11 @@ public class DriveSubsystem extends SubsystemBase {
         tab.add("Rear Left Angle", 0.0);
         tab.add("Rear Right Velocity", 0.0);
         tab.add("Rear Right Angle", 0.0);
+        tab.add("Gyro", 0.0);
+        tab.add("Heading", 0.0);
+        tab.add("Desired X Speed", 0.0);
+        tab.add("Desired Y Speed", 0.0);
+        tab.add("Desired Rotation", 0.0);
     }
 
   private void updateShuffleboard(MAXSwerveModule module, String name) {
@@ -283,5 +296,11 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber(name + " Angle", angle);
   }
 
+  private void UpdateShuffleboardChassis(double heading, double xSpd, double ySpd, double rotation ){
+    SmartDashboard.putNumber("Heading ", heading);
+    SmartDashboard.putNumber("Desired X Speed", xSpd);
+    SmartDashboard.putNumber("Desired Y Speed", ySpd);
+    SmartDashboard.putNumber("Desired Rotation", rotation);
+  }
 
 }
