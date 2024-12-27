@@ -30,7 +30,7 @@ public class MAXSwerveModule {
   private double m_chassisAngularOffset = 0;
   private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
  
-  @SuppressWarnings("unused")       // Not sure why shuffleboardName is flagged with an unused warning      
+  @SuppressWarnings("unused")       // Not sure why shuffleboardName is flagged with an unused warning in VSCode      
   private String shuffleboardName;  // it is a parameter of MAXSwerveModule constructor
   
   
@@ -51,10 +51,12 @@ public class MAXSwerveModule {
     m_turningSparkMax.restoreFactoryDefaults();
 
     // Setup encoders and PID controllers for the driving and turning SPARKS MAX.
+    // Setup motor controller interface objects
     m_drivingEncoder = m_drivingSparkMax.getEncoder();
     m_turningEncoder = m_turningSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
     m_drivingPIDController = m_drivingSparkMax.getPIDController();
     m_turningPIDController = m_turningSparkMax.getPIDController();
+    // Set the encoders to be used for PID feeback
     m_drivingPIDController.setFeedbackDevice(m_drivingEncoder);
     m_turningPIDController.setFeedbackDevice(m_turningEncoder);
 

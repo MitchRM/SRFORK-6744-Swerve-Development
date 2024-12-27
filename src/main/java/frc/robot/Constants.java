@@ -27,13 +27,13 @@ public final class Constants {
   public static final class DriveConstants {
     // Maximum driving speed commands - These are the maximum speeds that can be requested by 
     // the driver or autonomous, they are not the maximum speed cababiity of the robot.
-    public static final double kMaxSpeedMetersPerSecond = 4.8;
-    public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
+    public static final double kMaxSpeedMetersPerSecond = 2.0; // originally 4.8
+    public static final double kMaxAngularSpeed = Math.PI; // radians per second -- originally 2*PI
 
     // Maximum slew rate for driver control inputs
-    public static final double kDirectionSlewRate = 1.2; // radians per second
-    public static final double kMagnitudeSlewRate = 1.8; // percent per second (1 = 100%)
-    public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
+    public static final double kDirectionSlewRate = 0.6; // radians per second  -- originally 1.2 
+    public static final double kMagnitudeSlewRate = 0.9; // percent per second (1 = 100%) -- originally 1.8
+    public static final double kRotationalSlewRate = 1.5; // percent per second (1 = 100%)  -- originally 2.0
 
     // Chassis configuration
     public static final double kTrackWidth = Units.inchesToMeters(26.5);
@@ -113,7 +113,7 @@ public final class Constants {
     public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
     public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
 
-    public static final int kDrivingMotorCurrentLimit = 50; // amps
+    public static final int kDrivingMotorCurrentLimit = 40; // amps -- originally 50
     public static final int kTurningMotorCurrentLimit = 20; // amps
   }
 
