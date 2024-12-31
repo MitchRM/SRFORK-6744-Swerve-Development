@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.MathUtil;  // added for inputModulus in updateShuffleboard
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -76,6 +77,9 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
 
     setupShuffleboard();
+
+    // Callibrate Gyro
+    m_gyro.calibrate();
 
   }
 
@@ -281,7 +285,6 @@ public class DriveSubsystem extends SubsystemBase {
         tab.add("Rear Right Velocity", 0.0);
         tab.add("Rear Right Angle", 0.0);
         tab.add("Gyro", 0.0);
-        tab.add("Heading", 0.0);
         tab.add("Desired X Speed", 0.0);
         tab.add("Desired Y Speed", 0.0);
         tab.add("Desired Rotation", 0.0);
@@ -290,14 +293,14 @@ public class DriveSubsystem extends SubsystemBase {
   private void updateShuffleboard(MAXSwerveModule module, String name) {
     SwerveModuleState state = module.getState();
     double velocity = state.speedMetersPerSecond;
-    double angle = state.angle.getDegrees();
+    double angle = MathUtil.inputModulus(state.angle.getDegrees(), -180.0, 180.0);
 
     SmartDashboard.putNumber(name + " Velocity", velocity);
     SmartDashboard.putNumber(name + " Angle", angle);
   }
 
   private void UpdateShuffleboardChassis(double heading, double xSpd, double ySpd, double rotation ){
-    SmartDashboard.putNumber("Heading ", heading);
+    SmartDashboard.putNumber("Gyro", heading);
     SmartDashboard.putNumber("Desired X Speed", xSpd);
     SmartDashboard.putNumber("Desired Y Speed", ySpd);
     SmartDashboard.putNumber("Desired Rotation", rotation);
