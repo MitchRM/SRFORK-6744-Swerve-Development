@@ -49,8 +49,8 @@ public final class Constants {
     // Angular offsets of the modules relative to the chassis in radians - clockwise is positive
     public static final double kFrontLeftChassisAngularOffset = -Math.PI / 2;
     public static final double kFrontRightChassisAngularOffset = 0;
-    public static final double kBackLeftChassisAngularOffset = Math.PI;
-    public static final double kBackRightChassisAngularOffset = Math.PI / 2;
+    public static final double kRearLeftChassisAngularOffset = Math.PI;
+    public static final double kRearRightChassisAngularOffset = Math.PI / 2;
 
     // SPARK MAX CAN IDs
     public static final int kFrontLeftDrivingCanId = 11;
