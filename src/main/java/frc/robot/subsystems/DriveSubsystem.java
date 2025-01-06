@@ -66,6 +66,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+
+    // Callibrate Gyro
+    m_gyro.calibrate();
+    
   }
 
   @Override
