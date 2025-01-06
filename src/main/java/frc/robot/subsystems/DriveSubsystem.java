@@ -48,12 +48,14 @@ public class DriveSubsystem extends SubsystemBase {
   private double m_currentRotation = 0.0;
   private double m_currentTranslationDir = 0.0;
   private double m_currentTranslationMag = 0.0;
-
+  // Create translation magnitude SlewRateLimiter and rotation SlewRateLimiter
+  //    objects & initialize with the maximum slew rates
   private SlewRateLimiter m_magLimiter = new SlewRateLimiter(DriveConstants.kMagnitudeSlewRate);
   private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(DriveConstants.kRotationalSlewRate);
-  private double m_prevTime = WPIUtilJNI.now() * 1e-6;
+  private double m_prevTime = WPIUtilJNI.now() * 1e-6;  // Initialize timer
 
-  // Odometry class for tracking robot pose
+  // Create SwerveDriveOdometry object for tracking robot pose
+  //  (the position and orientation of the robot)
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
       DriveConstants.kDriveKinematics,
       Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)),
@@ -64,7 +66,8 @@ public class DriveSubsystem extends SubsystemBase {
           m_rearRight.getPosition()
       });
 
-  /** Creates a new DriveSubsystem. */
+  //  DriveSubsystem constructor
+  //    used by RobotContainer to create a DriveSubsystem object
   public DriveSubsystem() {
   }
 
