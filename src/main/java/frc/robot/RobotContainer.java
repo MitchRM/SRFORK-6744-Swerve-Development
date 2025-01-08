@@ -45,6 +45,9 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
+    // Initialize fieldRelative to true
+    boolean fieldRelative = true;
+
     // Configure default commands
     m_robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
@@ -54,7 +57,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-                true, true),
+                fieldRelative, true),
             m_robotDrive));
   }
 

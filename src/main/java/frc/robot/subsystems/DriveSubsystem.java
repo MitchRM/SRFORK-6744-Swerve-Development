@@ -69,6 +69,10 @@ public class DriveSubsystem extends SubsystemBase {
   //  DriveSubsystem constructor
   //    used by RobotContainer to create a DriveSubsystem object
   public DriveSubsystem() {
+
+    // Callibrate Gyro
+    m_gyro.calibrate();
+    
   }
 
   @Override
