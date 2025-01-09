@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -18,28 +19,38 @@ import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import frc.robot.Constants.DriveConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 public class DriveSubsystem extends SubsystemBase {
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
       DriveConstants.kFrontLeftDrivingCanId,
       DriveConstants.kFrontLeftTurningCanId,
-      DriveConstants.kFrontLeftChassisAngularOffset);
+      DriveConstants.kFrontLeftChassisAngularOffset,
+      "Front Left");
 
   private final MAXSwerveModule m_frontRight = new MAXSwerveModule(
       DriveConstants.kFrontRightDrivingCanId,
       DriveConstants.kFrontRightTurningCanId,
-      DriveConstants.kFrontRightChassisAngularOffset);
+      DriveConstants.kFrontRightChassisAngularOffset,
+      "Front Right");
 
   private final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
       DriveConstants.kRearLeftDrivingCanId,
       DriveConstants.kRearLeftTurningCanId,
-      DriveConstants.kRearLeftChassisAngularOffset);
+      DriveConstants.kRearLeftChassisAngularOffset,
+      "Rear Left");
+
 
   private final MAXSwerveModule m_rearRight = new MAXSwerveModule(
       DriveConstants.kRearRightDrivingCanId,
       DriveConstants.kRearRightTurningCanId,
-      DriveConstants.kRearRightChassisAngularOffset);
+      DriveConstants.kRearRightChassisAngularOffset,
+      "Rear Right");
+
 
   // The gyro sensor
   private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
@@ -70,6 +81,8 @@ public class DriveSubsystem extends SubsystemBase {
   //    used by RobotContainer to create a DriveSubsystem object
   public DriveSubsystem() {
 
+    setupShuffleboard();
+    
     // Callibrate Gyro
     m_gyro.calibrate();
     
@@ -86,7 +99,13 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
         });
-  }
+  
+    // Update Shuffleboard with current module states
+    updateShuffleboard(m_frontLeft, "Front Left");
+    updateShuffleboard(m_frontRight, "Front Right");
+    updateShuffleboard(m_rearLeft, "Rear Left");
+    updateShuffleboard(m_rearRight, "Rear Right");
+}
 
   /**
    * Returns the currently-estimated pose of the robot.
@@ -112,6 +131,8 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
         },
         pose);
+ 
+    SmartDashboard.putNumber("Gyro", m_gyro.getAngle(IMUAxis.kZ));
   }
 
   /**
@@ -192,6 +213,10 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
+
+    // Update shuffleboard with heading and desired speeds & direction
+    UpdateShuffleboardChassis(getHeading(), xSpeedCommanded, ySpeedCommanded, m_currentRotation );
+
   }
 
   /**
@@ -248,4 +273,39 @@ public class DriveSubsystem extends SubsystemBase {
   public double getTurnRate() {
     return m_gyro.getRate(IMUAxis.kZ) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
+
+  // Set up shuffleboard
+  private void setupShuffleboard() {
+    ShuffleboardTab tab = Shuffleboard.getTab("Swerve Modules");
+
+    tab.add("Front Left Velocity", 0.0);
+    tab.add("Front Left Angle", 0.0);
+    tab.add("Front Right Velocity", 0.0);
+    tab.add("Front Right Angle", 0.0);
+    tab.add("Rear Left Velocity", 0.0);
+    tab.add("Rear Left Angle", 0.0);
+    tab.add("Rear Right Velocity", 0.0);
+    tab.add("Rear Right Angle", 0.0);
+    tab.add("Gyro", 0.0);
+    tab.add("Desired X Speed", 0.0);
+    tab.add("Desired Y Speed", 0.0);
+    tab.add("Desired Rotation", 0.0);
+  }
+
+private void updateShuffleboard(MAXSwerveModule module, String name) {
+    SwerveModuleState state = module.getState();
+    double velocity = state.speedMetersPerSecond;
+    double angle = MathUtil.inputModulus(state.angle.getDegrees(), -180.0, 180.0);
+
+    SmartDashboard.putNumber(name + " Velocity", velocity);
+    SmartDashboard.putNumber(name + " Angle", angle);
+  }
+
+  private void UpdateShuffleboardChassis(double heading, double xSpd, double ySpd, double rotation ){
+    SmartDashboard.putNumber("Gyro", heading);
+    SmartDashboard.putNumber("Desired X Speed", xSpd);
+    SmartDashboard.putNumber("Desired Y Speed", ySpd);
+    SmartDashboard.putNumber("Desired Rotation", rotation);
+  }
+
 }
