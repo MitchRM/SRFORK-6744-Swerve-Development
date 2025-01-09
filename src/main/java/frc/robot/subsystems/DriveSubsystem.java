@@ -41,14 +41,16 @@ public class DriveSubsystem extends SubsystemBase {
   private final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
       DriveConstants.kRearLeftDrivingCanId,
       DriveConstants.kRearLeftTurningCanId,
-      DriveConstants.kBackLeftChassisAngularOffset,
+      DriveConstants.kRearLeftChassisAngularOffset,
       "Rear Left");
+
 
   private final MAXSwerveModule m_rearRight = new MAXSwerveModule(
       DriveConstants.kRearRightDrivingCanId,
       DriveConstants.kRearRightTurningCanId,
-      DriveConstants.kBackRightChassisAngularOffset,
+      DriveConstants.kRearRightChassisAngularOffset,
       "Rear Right");
+
 
   // The gyro sensor
   private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
@@ -57,12 +59,14 @@ public class DriveSubsystem extends SubsystemBase {
   private double m_currentRotation = 0.0;
   private double m_currentTranslationDir = 0.0;
   private double m_currentTranslationMag = 0.0;
-
+  // Create translation magnitude SlewRateLimiter and rotation SlewRateLimiter
+  //    objects & initialize with the maximum slew rates
   private SlewRateLimiter m_magLimiter = new SlewRateLimiter(DriveConstants.kMagnitudeSlewRate);
   private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(DriveConstants.kRotationalSlewRate);
-  private double m_prevTime = WPIUtilJNI.now() * 1e-6;
+  private double m_prevTime = WPIUtilJNI.now() * 1e-6;  // Initialize timer
 
-  // Odometry class for tracking robot pose
+  // Create SwerveDriveOdometry object for tracking robot pose
+  //  (the position and orientation of the robot)
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
       DriveConstants.kDriveKinematics,
       Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)),
@@ -73,10 +77,15 @@ public class DriveSubsystem extends SubsystemBase {
           m_rearRight.getPosition()
       });
 
-  /** Creates a new DriveSubsystem. */
+  //  DriveSubsystem constructor
+  //    used by RobotContainer to create a DriveSubsystem object
   public DriveSubsystem() {
 
     setupShuffleboard();
+    
+    // Callibrate Gyro
+    m_gyro.calibrate();
+    
   }
 
   @Override

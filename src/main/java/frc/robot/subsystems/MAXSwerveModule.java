@@ -55,6 +55,7 @@ public class MAXSwerveModule {
     m_turningEncoder = m_turningSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
     m_drivingPIDController = m_drivingSparkMax.getPIDController();
     m_turningPIDController = m_turningSparkMax.getPIDController();
+    // Set the encoders to be used for PID feeback
     m_drivingPIDController.setFeedbackDevice(m_drivingEncoder);
     m_turningPIDController.setFeedbackDevice(m_turningEncoder);
 
